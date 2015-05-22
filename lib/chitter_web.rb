@@ -1,6 +1,6 @@
 require 'sinatra/base'
-
 require 'data_mapper'
+require_relative 'user'
 
 env = ENV['RACK_ENV'] || 'development'
 
@@ -27,13 +27,12 @@ class Chitter < Sinatra::Base
   end
 
   get '/users/new' do
-  	@user = User.new
   	erb :'users/new'
   end
 
   post '/users' do
-  	@user = User.new(email: params[:email], password: params[:password])
-  	session[:user_id] = @user.id
+  	user = User.new(email: params[:email], password: params[:password])
+  	session[:user_id] = user.id
   	redirect '/'
   end
 
